@@ -82,11 +82,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// custom middlewere for remove password from response
-userSchema.post("save", async function (doc, next) {
-  doc.password = "";
-  next();
-});
+// delete hashed password after stored for client response
+userSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
 // custom custom static for check if user exists
 userSchema.statics.isUserExists = async (userId: number) => {
