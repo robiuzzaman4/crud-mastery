@@ -3,6 +3,7 @@ import {
   IUser,
   IUserAddress,
   IUserFullName,
+  IUserOrder,
   UserModel,
 } from "./user.interface";
 
@@ -35,46 +36,65 @@ const UserAddressSchema = new Schema<IUserAddress>({
   },
 });
 
-const userSchema = new Schema<IUser, UserModel>({
-  userId: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
+const userOrderSchema = new Schema<IUserOrder>({
+  productName: {
     type: String,
     required: true,
   },
-  fullName: {
-    type: userFullNameSchema,
-    required: true,
-  },
-  age: {
+  price: {
     type: Number,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-  },
-  isActive: {
-    type: Boolean,
-    required: true,
-  },
-  hobbies: {
-    type: [String],
-    required: true,
-  },
-  address: {
-    type: UserAddressSchema,
+  quantity: {
+    type: Number,
     required: true,
   },
 });
+
+const userSchema = new Schema<IUser, UserModel>(
+  {
+    userId: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    fullName: {
+      type: userFullNameSchema,
+      required: true,
+    },
+    age: {
+      type: Number,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      required: true,
+    },
+    hobbies: {
+      type: [String],
+      required: true,
+    },
+    address: {
+      type: UserAddressSchema,
+      required: true,
+    },
+    orders: [userOrderSchema],
+  },
+  { versionKey: false },
+);
 
 // custom middlewere for hash password
 userSchema.pre("save", async function (next) {
@@ -86,6 +106,11 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
+
+  // remove 'orders' property if it's an empty array
+  if (user.orders && user.orders.length === 0) {
+    delete user.orders;
+  }
   return user;
 };
 

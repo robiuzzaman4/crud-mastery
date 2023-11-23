@@ -11,6 +11,12 @@ export interface IUserAddress {
   country: string;
 }
 
+export interface IUserOrder {
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
 export interface IUser {
   userId: number;
   username: string;
@@ -21,6 +27,7 @@ export interface IUser {
   isActive: boolean;
   hobbies: string[];
   address: IUserAddress;
+  orders?: IUserOrder[];
 }
 
 // custom interface for UserModel

@@ -1,4 +1,4 @@
-import { IUser } from "./user.interface";
+import { IUser, IUserOrder } from "./user.interface";
 import { User } from "./user.model";
 
 // create user service
@@ -31,7 +31,7 @@ const getSpecificUserFromDB = async (userId: number) => {
   if (!(await User.isUserExists(userId))) {
     throw Error("User not found!");
   }
-  return await User.findOne({ userId });
+  return await User.findOne({ userId }, { _id: false, orders: false });
 };
 
 // update an existing user servic
@@ -54,6 +54,29 @@ const deleteUserFromDB = async (userId: number) => {
   return await User.findOneAndDelete({ userId });
 };
 
+// add a product to the user's orders service
+const addProductIntoUserOrders = async (userId: number, order: IUserOrder) => {
+  const userOrders = await User.findOneAndUpdate(
+    { userId },
+    { $addToSet: { orders: order } },
+  );
+
+  if (!userOrders) {
+    throw Error("User not found!");
+  }
+
+  return userOrders;
+};
+
+// retrieve all orders for a specific service
+const getSpecificUserOrdersFromDB = async (userId: number) => {
+  // check is user already exists
+  if (!(await User.isUserExists(userId))) {
+    throw Error("User not found!");
+  }
+  return await User.findOne({ userId }, { orders: true, _id: false });
+};
+
 // export user services
 export const userServices = {
   createUserIntoDB,
@@ -61,4 +84,6 @@ export const userServices = {
   getSpecificUserFromDB,
   updateUserIntoDB,
   deleteUserFromDB,
+  addProductIntoUserOrders,
+  getSpecificUserOrdersFromDB,
 };
