@@ -8,3 +8,8 @@
 ```ts
 Endpoint: POST /api/users
 ```
+
+**2. Retrieve a list of all users**
+```ts
+Endpoint: GET /api/users
+```
