@@ -11,7 +11,7 @@ const createUserIntoDB = async (user: IUser) => {
 };
 
 // get all users service
-const getUsersFromDB = async () => {
+const getAllUsersFromDB = async () => {
   return await User.find(
     {},
     {
@@ -25,8 +25,18 @@ const getUsersFromDB = async () => {
   );
 };
 
+// get specific user service
+const getSpecificUserFromDB = async (userId: number) => {
+  // check is user already exists
+  if (!(await User.isUserExists(userId))) {
+    throw Error("User not found!");
+  }
+  return await User.findOne({ userId });
+};
+
 // export user services
 export const userServices = {
   createUserIntoDB,
-  getUsersFromDB,
+  getAllUsersFromDB,
+  getSpecificUserFromDB,
 };

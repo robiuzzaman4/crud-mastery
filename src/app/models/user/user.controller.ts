@@ -37,7 +37,7 @@ const createUser = async (req: Request, res: Response) => {
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     // result
-    const result = await userServices.getUsersFromDB();
+    const result = await userServices.getAllUsersFromDB();
 
     // send valid response
     res.status(200).json({
@@ -58,8 +58,37 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// get specific user controller
+const getSpecificUser = async (req: Request, res: Response) => {
+  try {
+    // get userId from req.params
+    const { userId } = req.params;
+
+    // result
+    const result = await userServices.getSpecificUserFromDB(Number(userId));
+
+    // send valid response
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    // send error response
+    res.status(404).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        message: error.message,
+      },
+    });
+  }
+};
+
 // export user controllers
 export const userControllers = {
   createUser,
   getAllUsers,
+  getSpecificUser,
 };

@@ -13,3 +13,8 @@ Endpoint: POST /api/users
 ```ts
 Endpoint: GET /api/users
 ```
+
+**3. Retrieve a specific user by ID**
+```ts
+Endpoint: GET /api/users/:userId
+```
