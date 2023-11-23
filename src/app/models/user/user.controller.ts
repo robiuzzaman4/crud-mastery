@@ -86,9 +86,41 @@ const getSpecificUser = async (req: Request, res: Response) => {
   }
 };
 
+// update an existing user controller
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    // get userId from req.params
+    const { userId } = req.params;
+
+    // get updated user from req.body
+    const { user } = req.body;
+
+    // result
+    const result = await userServices.updateUserIntoDB(Number(userId), user);
+
+    // send valid response
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    // send error response
+    res.status(404).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        message: error.message,
+      },
+    });
+  }
+};
+
 // export user controllers
 export const userControllers = {
   createUser,
   getAllUsers,
   getSpecificUser,
+  updateUser,
 };

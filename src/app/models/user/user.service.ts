@@ -34,9 +34,20 @@ const getSpecificUserFromDB = async (userId: number) => {
   return await User.findOne({ userId });
 };
 
+// update an existing user servic
+const updateUserIntoDB = async (userId: number, updatedUser: IUser) => {
+  // check is user already exists
+  if (!(await User.isUserExists(userId))) {
+    throw Error("User not found!");
+  }
+
+  return await User.findOneAndUpdate({ userId }, updatedUser);
+};
+
 // export user services
 export const userServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSpecificUserFromDB,
+  updateUserIntoDB,
 };
