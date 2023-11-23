@@ -14,7 +14,7 @@ app.use("/api", userRoutes);
 
 // default route
 app.get("/", (req: Request, res: Response) => {
-  res.send(`Crud Mastery Application.`);
+  res.send(`Crud Mastery Application Server Is Running.`);
 });
 
 export default app;
