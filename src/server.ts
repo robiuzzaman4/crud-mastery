@@ -10,7 +10,7 @@ const main = async () => {
     // app listening
     app.listen(config.port, () => {
       console.log(
-        `Crud Mastery Application Is Running On Port: ${config.port}`,
+        `***Crud Mastery Application Is Running On Port: ${config.port}***`,
       );
     });
   } catch (error) {

@@ -1,7 +1,41 @@
 import { Schema, model } from "mongoose";
-import { IUser } from "./user.interface";
+import {
+  IUser,
+  IUserAddress,
+  IUserFullName,
+  UserModel,
+} from "./user.interface";
 
-const userSchema = new Schema<IUser>({
+import bcrypt from "bcrypt";
+import config from "../../../config";
+
+const userFullNameSchema = new Schema<IUserFullName>({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+});
+
+const UserAddressSchema = new Schema<IUserAddress>({
+  street: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
+
+const userSchema = new Schema<IUser, UserModel>({
   userId: {
     type: Number,
     required: true,
@@ -17,14 +51,8 @@ const userSchema = new Schema<IUser>({
     required: true,
   },
   fullName: {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
+    type: userFullNameSchema,
+    required: true,
   },
   age: {
     type: Number,
@@ -38,22 +66,32 @@ const userSchema = new Schema<IUser>({
     type: Boolean,
     required: true,
   },
-  hobbies: [String, String],
+  hobbies: {
+    type: [String],
+    required: true,
+  },
   address: {
-    street: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
+    type: UserAddressSchema,
+    required: true,
   },
 });
 
+// custom middlewere for hash password
+userSchema.pre("save", async function (next) {
+  this.password = await bcrypt.hash(this.password, Number(config.salt_rounds));
+  next();
+});
+
+// custom middlewere for remove password from response
+userSchema.post("save", async function (doc, next) {
+  doc.password = "";
+  next();
+});
+
+// custom custom static for check if user exists
+userSchema.statics.isUserExists = async (userId: number) => {
+  return await User.findOne({ userId });
+};
+
 // create model
-export const User = model<IUser>("User", userSchema);
+export const User = model<IUser, UserModel>("User", userSchema);
