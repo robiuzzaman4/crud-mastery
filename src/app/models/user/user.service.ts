@@ -44,10 +44,21 @@ const updateUserIntoDB = async (userId: number, updatedUser: IUser) => {
   return await User.findOneAndUpdate({ userId }, updatedUser);
 };
 
+// delete an existing user service
+const deleteUserFromDB = async (userId: number) => {
+  // check is user already exists
+  if (!(await User.isUserExists(userId))) {
+    throw Error("User not found!");
+  }
+
+  return await User.findOneAndDelete({ userId });
+};
+
 // export user services
 export const userServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSpecificUserFromDB,
   updateUserIntoDB,
+  deleteUserFromDB,
 };

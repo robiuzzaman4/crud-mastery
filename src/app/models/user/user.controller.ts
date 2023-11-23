@@ -117,10 +117,39 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+// delete an existing user controller
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    // get userId from req.params
+    const { userId } = req.params;
+
+    // result
+    await userServices.deleteUserFromDB(Number(userId));
+
+    // send valid response
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully!",
+      data: null,
+    });
+  } catch (error: any) {
+    // send error response
+    res.status(404).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        message: error.message,
+      },
+    });
+  }
+};
+
 // export user controllers
 export const userControllers = {
   createUser,
   getAllUsers,
   getSpecificUser,
   updateUser,
+  deleteUser,
 };

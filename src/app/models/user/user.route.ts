@@ -16,5 +16,8 @@ router.get("/users/:userId", userControllers.getSpecificUser);
 // update an existing user route
 router.put("/users/:userId", userControllers.updateUser);
 
+// delete an existing user route
+router.delete("/users/:userId", userControllers.deleteUser);
+
 // export user routes
 export const userRoutes = router;

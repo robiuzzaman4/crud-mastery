@@ -18,3 +18,13 @@ Endpoint: GET /api/users
 ```ts
 Endpoint: GET /api/users/:userId
 ```
+
+**4. Update user information**
+```ts
+Endpoint: PUT /api/users/:userId
+```
+
+**5. Delete a user**
+```ts
+Endpoint: DELETE /api/users/:userId
+```
