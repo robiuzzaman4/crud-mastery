@@ -77,6 +77,25 @@ const getSpecificUserOrdersFromDB = async (userId: number) => {
   return await User.findOne({ userId }, { orders: true, _id: false });
 };
 
+// calculate total price of orders for a specific user service
+const getTotalPriceFromUserOrder = async (userId: number) => {
+  // check is exists or not
+  const user = await User.findOne({ userId });
+
+  if (!user) {
+    throw Error("User not found!");
+  }
+
+  // calculate total price
+  const totalPrice = user.orders?.reduce(
+    (sum, order) => sum + order.price * order.quantity,
+    0,
+  );
+
+  // return totalPrice;
+  return Number(totalPrice?.toFixed(2));
+};
+
 // export user services
 export const userServices = {
   createUserIntoDB,
@@ -86,4 +105,5 @@ export const userServices = {
   deleteUserFromDB,
   addProductIntoUserOrders,
   getSpecificUserOrdersFromDB,
+  getTotalPriceFromUserOrder,
 };

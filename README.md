@@ -28,3 +28,18 @@ Endpoint: PUT /api/users/:userId
 ```ts
 Endpoint: DELETE /api/users/:userId
 ```
+
+**6. Add New Product in Order**
+```ts
+Endpoint: PUT /api/users/:userId/orders
+```
+
+**7. Retrieve all orders for a specific user**
+```ts
+Endpoint: GET /api/users/:userId/orders
+```
+
+**8. Calculate Total Price of Orders for a Specific User**
+```ts
+Endpoint: GET /api/users/:userId/orders/total-price
+```
