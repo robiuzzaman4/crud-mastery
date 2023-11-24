@@ -27,7 +27,7 @@ const createUser = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -52,7 +52,7 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -80,7 +80,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -111,7 +111,7 @@ const updateUser = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -139,7 +139,7 @@ const deleteUser = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -173,7 +173,7 @@ const addProduct = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -203,7 +203,7 @@ const getSpecificUserOrders = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
@@ -235,7 +235,7 @@ const getTotalPriceOfOrders = async (req: Request, res: Response) => {
       message: error.message,
       error: {
         code: 404,
-        message: error.message,
+        description: error.message,
       },
     });
   }
