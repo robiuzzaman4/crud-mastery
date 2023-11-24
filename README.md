@@ -1,9 +1,76 @@
-# **Crud Mastery**
+## **Crud Mastery**
 
-**Building Advanced Crud Operation API.**
+### **Overview**
+**This is a simple CRUD (Create, Read, Update, Delete) application built using Express, MongoDB, and TypeScript.**
 
-## **Features**
+### **Prerequisites**
+**Before you begin, ensure you have the installed `Node` on your machine.**
 
+### **Installation**
+**1. Clone the repository:**
+```bash
+git clone https://github.com/robiuzzaman4/crud-mastery.git
+```
+**2. Navigate to the project directory:**
+```bash
+cd crud-mastery
+```
+**3. Install dependencies:**
+```bash
+npm install
+```
+**4. Set up environment variables:**
+```bash
+PORT=5000
+DATABASE_URI=your_mongodb_connection_string
+SALT_ROUNDS=12
+```
+
+
+
+### **Running the Application**
+**1. Development Mode**
+```bash
+npm run start:dev
+```
+
+**2. Production Mode**
+```bash
+npm run build
+npm run start:prod
+```
+
+
+
+### **Linting and Formatting**
+```bash
+// To lint the code:
+npm run start:dev
+
+// To automatically fix linting issues:
+npm run lint:fix
+```
+
+
+
+### **Linting and Formatting**
+```bash
+// To lint the code:
+npm run start:dev
+
+// To automatically fix linting issues:
+npm run lint:fix
+
+// To format the code using Prettier:
+npm run prettier
+
+// To automatically fix formatting issues:
+npm run prettier:fix
+```
+
+
+
+### **Endpoints**
 **1. Create a new user**
 ```ts
 Endpoint: POST /api/users
