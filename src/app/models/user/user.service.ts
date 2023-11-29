@@ -1,5 +1,7 @@
+import config from "../../../config";
 import { IUser, IUserOrder } from "./user.interface";
 import { User } from "./user.model";
+import bcrypt from "bcrypt";
 
 // create user service
 const createUserIntoDB = async (user: IUser) => {
@@ -41,7 +43,12 @@ const updateUserIntoDB = async (userId: number, updatedUser: IUser) => {
     throw Error("User not found!");
   }
 
-  return await User.findOneAndUpdate({ userId }, updatedUser);
+  // check if user update password then save password with hashing
+  if (updatedUser.password) {
+    updatedUser.password = await bcrypt.hash(updatedUser.password, Number(config.salt_rounds));
+  }
+
+  return await User.findOneAndUpdate({ userId }, updatedUser, { new: true });
 };
 
 // delete an existing user service

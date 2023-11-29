@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import UserValidationSchema, { UserOrderSchema } from "./user.validation";
 import { userServices } from "./user.service";
@@ -6,7 +7,7 @@ import { userServices } from "./user.service";
 const createUser = async (req: Request, res: Response) => {
   try {
     // get user data from req.body
-    const { user } = req.body;
+    const user = req.body;
 
     // validate user
     const validateUser = UserValidationSchema.parse(user);
@@ -24,11 +25,12 @@ const createUser = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error?.issues[0]?.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error?.issues[0]?.message || "Something went wrong!",
       },
+      // error: error
     });
   }
 };
@@ -49,10 +51,10 @@ const getAllUsers = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
@@ -77,10 +79,10 @@ const getSpecificUser = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
@@ -93,7 +95,7 @@ const updateUser = async (req: Request, res: Response) => {
     const { userId } = req.params;
 
     // get updated user from req.body
-    const { user } = req.body;
+    const user = req.body;
 
     // result
     const result = await userServices.updateUserIntoDB(Number(userId), user);
@@ -108,10 +110,10 @@ const updateUser = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
@@ -136,10 +138,10 @@ const deleteUser = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
@@ -170,10 +172,10 @@ const addProduct = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error?.issues[0]?.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        message: error?.issues[0]?.message || "Something went wrong!",
       },
     });
   }
@@ -200,10 +202,10 @@ const getSpecificUserOrders = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
@@ -232,10 +234,10 @@ const getTotalPriceOfOrders = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong!",
       error: {
         code: 404,
-        description: error.message,
+        description: error.message || "Something went wrong!",
       },
     });
   }
