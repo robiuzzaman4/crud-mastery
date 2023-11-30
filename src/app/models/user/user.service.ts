@@ -45,7 +45,10 @@ const updateUserIntoDB = async (userId: number, updatedUser: IUser) => {
 
   // check if user update password then save password with hashing
   if (updatedUser.password) {
-    updatedUser.password = await bcrypt.hash(updatedUser.password, Number(config.salt_rounds));
+    updatedUser.password = await bcrypt.hash(
+      updatedUser.password,
+      Number(config.salt_rounds),
+    );
   }
 
   return await User.findOneAndUpdate({ userId }, updatedUser, { new: true });
@@ -63,16 +66,15 @@ const deleteUserFromDB = async (userId: number) => {
 
 // add a product to the user's orders service
 const addProductIntoUserOrders = async (userId: number, order: IUserOrder) => {
-  const userOrders = await User.findOneAndUpdate(
-    { userId },
-    { $addToSet: { orders: order } },
-  );
-
-  if (!userOrders) {
+  if (!(await User.isUserExists(userId))) {
     throw Error("User not found!");
+  } else {
+    const userOrders = await User.updateOne(
+      { userId },
+      { $addToSet: { orders: order } },
+    );
+    return userOrders;
   }
-
-  return userOrders;
 };
 
 // retrieve all orders for a specific service

@@ -30,7 +30,6 @@ const createUser = async (req: Request, res: Response) => {
         code: 404,
         description: error?.issues[0]?.message || "Something went wrong!",
       },
-      // error: error
     });
   }
 };
@@ -172,10 +171,10 @@ const addProduct = async (req: Request, res: Response) => {
     // send error response
     res.status(404).json({
       success: false,
-      message: error?.issues[0]?.message || "Something went wrong!",
+      message:  error?.issues ? error?.issues[0]?.message : error.message,
       error: {
         code: 404,
-        message: error?.issues[0]?.message || "Something went wrong!",
+        description: error?.issues ? error?.issues[0]?.message : error.message,
       },
     });
   }
